@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'ShopEasy',
     'rest_framework',
     'rest_framework_simplejwt',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
 ]
 
 MIDDLEWARE = [
@@ -90,11 +92,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'ShopEasy API',
+    'DESCRIPTION': 'API for ShopEasy E-commerce Plataform',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA':False,
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

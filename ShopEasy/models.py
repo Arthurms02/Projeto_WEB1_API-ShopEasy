@@ -1,14 +1,23 @@
 from django.db import models
+from django.utils import timezone
 
 
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         abstract = True
 
+    def delete(self, using=None, keep_parents=False):
+        self.deleted_at = timezone.now()
+        self.save()
+    
+    def restore(self):
+        self.deleted_at = None
+        self.save()
 
 class User(BaseModel):
     username = models.CharField(max_length=150, unique=True)

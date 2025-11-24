@@ -10,9 +10,8 @@ def processar_pagamento(payment):
     """
     
     for item in payment.order.items.all():
+
         produto = item.product
-
-
 
         if item.order.status == 'Processando':
             return
