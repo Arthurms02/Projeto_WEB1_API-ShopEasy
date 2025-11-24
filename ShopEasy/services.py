@@ -12,17 +12,17 @@ def processar_pagamento(payment):
     for item in payment.order.items.all():
         produto = item.product
 
-        print(f"Processando item do pedido: {item.id} - {produto.name}")
+
 
         if item.order.status == 'Processando':
             return
-        print(f"Verificando estoque para o produto {produto.name} --- Quantidade solicitada: {item.quantity}, Estoque disponível: {produto.stock}")
+
         if produto.stock < item.quantity:
             raise ValueError(f"Estoque insuficiente para o produto: {produto.name}")
-        print(f"Reduzindo estoque do produto {produto.name} em {item.quantity}")
+
         produto.stock -= item.quantity
         produto.save()
-    print(f"Pagamento processado para a ordem {payment.order.id} - {produto.name}")
+
     payment.__class__.objects.filter(pk=payment.pk).update(status='Pago')
 
 
@@ -45,8 +45,6 @@ def process_webhook_notification(order_id, external_transaction_id, external_sta
             return "Pagamento processado com sucesso. Estoque atualizado."
 
     except IntegrityError:
-    
-        print(f"Transação {external_transaction_id} já existe.")
 
         return "Transação já processada anteriormente."
     
