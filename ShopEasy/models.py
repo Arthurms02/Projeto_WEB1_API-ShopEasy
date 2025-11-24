@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from .manage import ActiveManager
 
 
 
@@ -10,6 +11,10 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+    
+
+    objects = ActiveManager()
+    all_objects = models.Manager()
 
     def delete(self, using=None, keep_parents=False):
         self.deleted_at = timezone.now()
@@ -23,6 +28,7 @@ class User(BaseModel):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
+
 
     def __str__(self):
         return self.username
