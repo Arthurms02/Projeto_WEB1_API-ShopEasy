@@ -56,6 +56,9 @@ class Order(BaseModel):
     shipping_address = models.TextField()
     payment_method = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f"Order {self.id} - {self.user.username}"
+
 
 class OrderItem(BaseModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items')
@@ -63,6 +66,8 @@ class OrderItem(BaseModel):
     quantity = models.PositiveIntegerField()
     price_at_purchase = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return f"OrderItem {self.id} - {self.product.name} (Order {self.order.id})"
 
 class Cart(BaseModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -85,4 +90,7 @@ class PaymentTransaction(BaseModel):
     ]
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Processando')
     method = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"PaymentTransaction {self.transaction_id} - {self.status}"
      

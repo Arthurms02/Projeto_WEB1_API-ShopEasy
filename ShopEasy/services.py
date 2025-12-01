@@ -22,6 +22,7 @@ def processar_pagamento(payment):
         produto.stock -= item.quantity
         produto.save()
 
+    # Usa update para evitar disparar signals desnecessários
     payment.__class__.objects.filter(pk=payment.pk).update(status='Pago')
 
 
@@ -44,7 +45,6 @@ def process_webhook_notification(order_id, external_transaction_id, external_sta
             return "Pagamento processado com sucesso. Estoque atualizado."
 
     except IntegrityError:
-
         return "Transação já processada anteriormente."
     
     except Exception as e:
