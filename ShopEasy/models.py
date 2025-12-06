@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from .manage import ActiveManager
-
+from django.contrib.auth.models import AbstractBaseUser
 
 
 class BaseModel(models.Model):
@@ -24,7 +24,7 @@ class BaseModel(models.Model):
         self.deleted_at = None
         self.save()
 
-class User(BaseModel):
+class User(AbstractBaseUser):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)

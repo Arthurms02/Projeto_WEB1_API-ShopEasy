@@ -1,19 +1,7 @@
 from django.contrib import admin
 from .models import User, Product, Order, OrderItem, Cart, CartItem, PaymentTransaction
 
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'created_at', 'updated_at')
-    search_fields = ('username', 'email')
-
-    def get_exclude(self, request, obj=None):
-        # Oculta deleted_at ao criar novo objeto
-        if obj is None:
-            return ['deleted_at']
-        return []
-    
-    
+       
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'stock', 'created_at', 'updated_at')
