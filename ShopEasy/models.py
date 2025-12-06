@@ -24,14 +24,19 @@ class BaseModel(models.Model):
         self.deleted_at = None
         self.save()
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, BaseModel):
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
 
+    objects = ActiveManager()
+    all_objects = models.Manager()
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     def __str__(self):
-        return self.username
+        return self.username   
 
 
 class Product(BaseModel):
